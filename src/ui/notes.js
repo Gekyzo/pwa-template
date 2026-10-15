@@ -38,6 +38,8 @@ export const renderNotes = () => {
   if (note) $('notes').dataset.detail = '';
   else delete $('notes').dataset.detail;
   $('note-detail-text').textContent = note?.text ?? '';
+  $('note-detail-empty').hidden = Boolean(note);
+  $('note-actions').hidden = !note;
   $('note-sheet').hidden = !ui.sheetOpen;
 };
 

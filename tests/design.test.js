@@ -201,3 +201,18 @@ test('the frame of the catalogue page does not reach into the examples (DS-7)', 
   const reaching = frame.filter((rule) => /(^|\s)(h[1-6]|p|span|div|code|pre)$/.test(rule.selector) && !/>\s*(h[1-6]|p|span|div|code|pre)$/.test(rule.selector));
   assert.deepEqual(reaching.map((rule) => rule.selector), []);
 });
+
+test('a width query uses only the breakpoints 600px and 840px, as min-width (DS-8)', () => {
+  const queries = [...css.matchAll(/@media\s*([^{]+)\{/g)].map(([, query]) => query);
+  const widths = queries.flatMap((query) =>
+    [...query.matchAll(/\(\s*(min-|max-)?width\s*:\s*([^)]+)\)/g)].map(([, kind = '', value]) => `${kind}${value.trim()}`));
+  assert.ok(widths.includes('min-600px'));
+  assert.ok(widths.includes('min-840px'));
+  assert.deepEqual(widths.filter((width) => !['min-600px', 'min-840px'].includes(width)), []);
+});
+
+test('the pane layout is documented with its parts (LAY-3)', () => {
+  const pane = catalog.components.find((component) => component.name === 'pane');
+  assert.ok(pane);
+  assert.deepEqual(pane.parts.map((part) => part.name).sort(), ['pane-back', 'pane-detail', 'pane-list']);
+});

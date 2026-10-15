@@ -9,6 +9,7 @@ export default {
   'notes.new': 'New note',
   'notes.editTitle': 'Edit note',
   'notes.text': 'Text',
+  'notes.pick': 'Pick a note.',
   'notes.save': 'Save',
   'notes.back': 'Back',
   'notes.edit': 'Edit',

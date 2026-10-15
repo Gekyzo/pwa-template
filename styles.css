@@ -50,6 +50,10 @@
     --icon-s: 20px;
     --arrow: 6px; /* the arrow of a select */
     --nav-height: 60px;
+    /* The adaptive layout (LAY-1): the rail from 600px, the two panes from 840px. */
+    --rail-width: 80px;
+    --content-max: 640px;
+    --pane-list: 360px;
     --art-width: 240px; /* the drawings of the walkthrough */
     --logo: 96px; /* the app icon at the top of the walkthrough */
 
@@ -161,6 +165,13 @@
     from {
       opacity: 0;
       transform: translateX(var(--enter-from));
+    }
+  }
+
+  /* The rail stands at the start side from 600px: the page moves beside it (LAY-2). */
+  @media (min-width: 600px) {
+    body {
+      padding-inline-start: calc(var(--rail-width) + env(safe-area-inset-left));
     }
   }
 }
@@ -572,7 +583,7 @@
   }
 
   /* @component nav-bar
-     @summary The bottom bar: one item for each section that is on.
+     @summary The bottom bar below 600px, a rail at the start side from 600px: one item for each section that is on.
      @part nav-item  A section: its icon and its name. The current one has aria-current="page".
      @example <nav class="nav-bar" style="width: 100%"><button class="nav-item" type="button" aria-current="page"><svg class="icon" aria-hidden="true"><use href="icons.svg#note"/></svg><span>Notes</span></button><button class="nav-item" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#settings"/></svg><span>Later</span><em class="badge">2</em></button></nav> */
   .nav-bar {
@@ -600,6 +611,28 @@
   .nav-item[aria-current="page"] {
     color: var(--accent);
     font-weight: var(--weight-strong);
+  }
+
+  /* From 600px the bar is a rail at the start side, so a tablet or a phone on its side keeps its
+     height for the content (LAY-2). */
+  @media (min-width: 600px) {
+    .nav-bar {
+      position: fixed;
+      inset-block: 0;
+      inset-inline-start: 0;
+      z-index: 10;
+      flex-direction: column;
+      justify-content: center;
+      width: calc(var(--rail-width) + env(safe-area-inset-left));
+      padding-bottom: 0;
+      padding-inline-start: env(safe-area-inset-left);
+      border-top: 0;
+      border-inline-end: 1px solid var(--line);
+    }
+
+    .nav-item {
+      flex: none;
+    }
   }
 
   /* @component badge
@@ -767,6 +800,14 @@
 
   .toast-text {
     flex: 1;
+  }
+
+  /* No bar at the bottom from 600px: the toast goes down, and clears the rail. */
+  @media (min-width: 600px) {
+    .toast {
+      bottom: calc(env(safe-area-inset-bottom) + var(--tap-l) + var(--space-6));
+      left: calc(var(--rail-width) + env(safe-area-inset-left) + var(--space-3));
+    }
   }
 
   /* @component banner
@@ -1180,6 +1221,17 @@
     right: auto;
     left: var(--space-4);
   }
+
+  /* No bar at the bottom from 600px; on the left side the button clears the rail. */
+  @media (min-width: 600px) {
+    .fab {
+      bottom: calc(env(safe-area-inset-bottom) + var(--space-4));
+    }
+
+    [data-hand="left"] .fab {
+      left: calc(var(--rail-width) + env(safe-area-inset-left) + var(--space-4));
+    }
+  }
 }
 
 @layer layouts {
@@ -1238,13 +1290,21 @@
   }
 
   /* @component pane
-     @summary A list and the detail of one entry. One of them shows at a time while an entry is open.
-     @part pane-list  The list. Hidden while a detail is open.
-     @part pane-detail  The detail. Hidden while no entry is open.
+     @summary A list and the detail of one entry. Below 840px one of them shows at a time, in one centred column; from 840px they stand side by side.
+     @part pane-list  The list. Hidden below 840px while a detail is open.
+     @part pane-detail  The detail. Hidden below 840px while no entry is open.
+     @part pane-back  The button of the detail that goes back to the list. Hidden from 840px, where the list stays in sight.
      @state data-detail  An entry is open.
-     @example <div class="pane" data-detail style="width: 100%"><div class="pane-list"><p>List</p></div><div class="pane-detail"><p>Detail</p></div></div> */
+     @example <div class="pane" data-detail style="width: 100%"><div class="pane-list"><p>List</p></div><div class="pane-detail"><button class="button quiet pane-back" type="button">Back</button><p>Detail</p></div></div> */
+  .pane {
+    width: 100%;
+    max-width: var(--content-max);
+    margin-inline: auto;
+  }
+
   .pane-detail {
     display: none;
+    padding: var(--space-4);
   }
 
   .pane[data-detail] > .pane-list {
@@ -1253,6 +1313,29 @@
 
   .pane[data-detail] > .pane-detail {
     display: block;
+  }
+
+  @media (min-width: 840px) {
+    .pane {
+      display: grid;
+      grid-template-columns: var(--pane-list) minmax(0, 1fr);
+      max-width: none;
+      min-height: 100%;
+    }
+
+    .pane > .pane-list,
+    .pane[data-detail] > .pane-list,
+    .pane > .pane-detail {
+      display: block;
+    }
+
+    .pane > .pane-detail {
+      border-inline-start: 1px solid var(--line);
+    }
+
+    .pane-back {
+      display: none;
+    }
   }
 }
 
@@ -1314,9 +1397,15 @@
 
   /* @component settings
      @scope settings
-     @summary The Ajustes section: titled list groups, then the about lines.
+     @summary The Settings section: titled list groups, then the about lines. One centred column from 600px.
      @part settings-title  The title above a list group.
      @example <section class="settings" style="width: 100%"><h2 class="settings-title">Language</h2><div class="list-group"><select class="select" aria-label="Idioma"><option>English</option></select></div></section> */
+  .settings {
+    width: 100%;
+    max-width: var(--content-max);
+    margin-inline: auto;
+  }
+
   .settings-title {
     margin: var(--space-5) var(--space-4) var(--space-2);
     color: var(--muted);

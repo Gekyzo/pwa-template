@@ -33,9 +33,10 @@
           </div>
         </div>
         <article id="note-detail" class="pane-detail">
-          <button id="note-back" class="button quiet" type="button" data-i18n="notes.back"></button>
+          <button id="note-back" class="button quiet pane-back" type="button" data-i18n="notes.back"></button>
+          <p id="note-detail-empty" class="empty-state" data-i18n="notes.pick"></p>
           <p id="note-detail-text"></p>
-          <div class="cluster">
+          <div id="note-actions" class="cluster">
             <button id="note-edit" class="button outline" type="button" data-i18n="notes.edit"></button>
             <button id="note-delete" class="button danger" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#trash"/></svg><span data-i18n="notes.delete"></span></button>
           </div>
