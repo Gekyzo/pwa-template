@@ -24,6 +24,7 @@ import {
   setNavMotion,
 } from '#ui/context';
 import { runUpdate } from '#ui/update';
+import { renderOnboarding } from '#ui/onboarding';
 
 // Writes the fixed text of the page, then the text that a render builds.
 export const applyLanguage = () => {
@@ -58,6 +59,7 @@ export const applyLanguage = () => {
     box.checked = isOn(box.dataset.module);
   });
   render();
+  renderOnboarding();
 };
 
 const download = (filename, text) => {

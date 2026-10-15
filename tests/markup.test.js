@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { CATALOGS } from '#i18n';
+import { PAGES } from '#onboarding';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const body = html.slice(html.indexOf('<body'), html.indexOf('<script type="importmap">'));
@@ -37,4 +38,22 @@ test('the note sheet has a veil, a dialog and a text field with the maximum leng
   assert.match(layer, /<div id="note-veil" class="sheet-veil">/);
   assert.match(layer, /<form id="note-form" class="sheet" role="dialog"/);
   assert.match(layer, /<textarea id="note-text"[^>]*maxlength="200"/);
+});
+
+test('the walkthrough has one drawing for each page, in the order of the pages', () => {
+  const [layer = ''] = body.match(/<div id="onboarding"[\s\S]*?<input id="import-file"/) ?? [];
+  const drawings = [...layer.matchAll(/<svg data-page="([^"]+)"/g)].map(([, page]) => page);
+  assert.deepEqual(drawings, PAGES);
+});
+
+test('the walkthrough shows the app icon first, out of the page that changes, with no text', () => {
+  const [, layer = ''] = body.match(/<div id="onboarding"[^>]*>\s*([\s\S]*?)<div id="onboarding-page"/) ?? [];
+  assert.match(layer, /^<img class="onboarding-logo" src="\.\/icons\/logo\.png" alt="">\s*$/);
+});
+
+test('the walkthrough has Saltar and the next button in one bar at the bottom, Saltar first', () => {
+  const [bar = ''] = body.match(/<div class="onboarding-actions">[\s\S]*?<\/div>/) ?? [];
+  const buttons = [...bar.matchAll(/<button id="([^"]+)"/g)].map(([, id]) => id);
+  assert.deepEqual(buttons, ['onboarding-skip', 'onboarding-next']);
+  assert.doesNotMatch(body, /onboarding-top/);
 });

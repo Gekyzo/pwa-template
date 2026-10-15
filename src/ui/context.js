@@ -10,8 +10,11 @@ import {
   saveTheme,
   loadModules,
   saveModules,
+  loadOnboarded,
+  hasStoredDoc,
 } from '#storage';
 import { LANGUAGES, resolveLanguage, translator } from '#i18n';
+import { shouldShow } from '#onboarding';
 
 // The values that the views share. A view reads them through the import, a live binding, and
 // changes them only through the setters of this module.
@@ -19,6 +22,14 @@ import { LANGUAGES, resolveLanguage, translator } from '#i18n';
 export const UNDO_MS = 5000;
 export const MESSAGE_MS = 3000;
 export const CLICK_GUARD_MS = 350;
+// Width of one swipe-action of a row, the same as in styles.css.
+export const SIDE_BUTTON = 64;
+export const DRAG_START = 10;
+// The hold of a finger that lifts a row for a manual order.
+export const HOLD_MS = 400;
+// The distance from an edge of the list where a lifted row scrolls it, and the scroll of one frame.
+export const EDGE = 56;
+export const EDGE_STEP = 8;
 export const LEAVE_MS = 200;
 // The wait for the service worker to load the new deploy.
 export const REFRESH_MS = 15000;
@@ -63,6 +74,9 @@ export let navMotion = false;
 // The text of a message of a pure module.
 export const textOf = ({ key, params }) => t(key, params);
 
+// Read before the doc. A stored doc, valid or not, means that the install is not new.
+const firstStart = storage ? shouldShow({ seen: loadOnboarded(storage), hasState: hasStoredDoc(storage, NOTES_KEY) }) : false;
+
 const DOC = { key: NOTES_KEY, normalize: normalizeNotes, empty: emptyNotes };
 export let state = storage ? loadDoc(storage, DOC) : emptyNotes();
 
@@ -74,8 +88,12 @@ export const ui = {
   sheetOpen: false,
   // The note that the sheet edits, or null for a new note.
   editing: null,
+  // The note row whose side actions are open, or null.
+  openId: null,
+  // Where the last swipe left its row, so that the next render moves the row from there.
+  settleFrom: null,
   // The page of the walkthrough in view, or null while the walkthrough is closed.
-  onboarding: null,
+  onboarding: firstStart ? 0 : null,
   // `running` is the version of the cached shell; `latest` is the deployed one.
   version: { running: null, latest: null, checking: false },
   // The install offer: `idle`, `available` or `installed` (INS-1).

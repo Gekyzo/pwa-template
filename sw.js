@@ -16,6 +16,13 @@ const SHELL = [
   './src/ui/notes.js',
   './src/ui/settings.js',
   './src/ui/update.js',
+  './src/ui/drag.js',
+  './src/ui/dust.js',
+  './src/ui/onboarding.js',
+  './src/swipe.js',
+  './src/reorder.js',
+  './src/particles.js',
+  './src/onboarding.js',
   './src/notes.js',
   './src/install.js',
   './src/sections.js',
@@ -29,6 +36,7 @@ const SHELL = [
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-maskable-512.png',
+  './icons/logo.png',
 ];
 
 // The text of the manifest in the language of the screen, which the page sends (`manifest`

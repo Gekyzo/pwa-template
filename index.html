@@ -69,8 +69,8 @@
         <div class="list-group">
           <button id="install" class="list-row" type="button" hidden><svg class="icon" aria-hidden="true"><use href="icons.svg#download"/></svg><span data-i18n="settings.install"></span></button>
         </div>
-        <h2 class="settings-title" data-i18n="settings.help" hidden></h2>
-        <div class="list-group" hidden>
+        <h2 class="settings-title" data-i18n="settings.help"></h2>
+        <div class="list-group">
           <button id="show-onboarding" class="list-row" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#help"/></svg><span data-i18n="settings.onboarding"></span></button>
         </div>
         <footer class="about">
@@ -103,6 +103,35 @@
       </form>
     </div>
 
+    <div id="onboarding" class="onboarding" role="dialog" aria-modal="true" data-i18n-attr="aria-label:onboarding.label" hidden>
+      <img class="onboarding-logo" src="./icons/logo.png" alt="">
+      <div id="onboarding-page" class="onboarding-page">
+        <div class="onboarding-art">
+          <svg data-page="welcome" viewBox="0 0 240 160" aria-hidden="true">
+            <rect class="art-card" x="70" y="16" width="100" height="128" rx="12"/>
+            <path class="art-accent" d="M90 50h60M90 74h44M90 98h52"/>
+            <circle class="art-solid" cx="170" cy="130" r="18"/>
+            <path class="art-on-solid" d="M170 122v16M162 130h16"/>
+          </svg>
+          <svg data-page="offline" viewBox="0 0 240 160" aria-hidden="true">
+            <rect class="art-card" x="70" y="16" width="100" height="128" rx="12"/>
+            <path class="art-accent" d="M96 70a34 34 0 0 1 48 0M106 82a20 20 0 0 1 28 0"/>
+            <circle class="art-accent" cx="120" cy="96" r="4"/>
+            <path d="M92 52l56 64"/>
+          </svg>
+        </div>
+        <div aria-live="polite">
+          <h2 id="onboarding-title" class="onboarding-title"></h2>
+          <p id="onboarding-text" class="onboarding-text"></p>
+        </div>
+      </div>
+      <div id="onboarding-dots" class="onboarding-dots" role="img"></div>
+      <div class="onboarding-actions">
+        <button id="onboarding-skip" class="button outline quiet" type="button" data-i18n="onboarding.skip"></button>
+        <button id="onboarding-next" class="button primary" type="button"></button>
+      </div>
+    </div>
+
     <input id="import-file" type="file" accept="application/json,.json" hidden>
 
     <script type="importmap">
@@ -126,6 +155,13 @@
           "#ui/nav": "./src/ui/nav.js",
           "#ui/notes": "./src/ui/notes.js",
           "#ui/settings": "./src/ui/settings.js",
+          "#swipe": "./src/swipe.js",
+          "#reorder": "./src/reorder.js",
+          "#particles": "./src/particles.js",
+          "#onboarding": "./src/onboarding.js",
+          "#ui/drag": "./src/ui/drag.js",
+          "#ui/dust": "./src/ui/dust.js",
+          "#ui/onboarding": "./src/ui/onboarding.js",
           "#ui/update": "./src/ui/update.js"
         }
       }
