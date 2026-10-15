@@ -82,3 +82,16 @@ test('init refuses to run a second time and changes nothing', { skip: !isTemplat
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test('init puts a name with $ patterns in as typed', { skip: !isTemplate }, () => {
+  const dir = copy();
+  try {
+    const result = run(dir, 'cash-app', 'Save $$ now');
+    assert.equal(result.status, 0, result.stderr);
+    const manifest = JSON.parse(readFileSync(join(dir, 'manifest.webmanifest'), 'utf8'));
+    assert.equal(manifest.name, 'Save $$ now');
+    assert.match(readFileSync(join(dir, 'index.html'), 'utf8'), /<title>Save \$\$ now<\/title>/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

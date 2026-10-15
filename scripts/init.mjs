@@ -65,9 +65,10 @@ export const initApp = (root, { slug, name, short, theme }, now = new Date()) =>
   // The cache starts again at v1, then every literal of the template takes the new names.
   const rename = (text) =>
     text
-      .replace(/pwa-template-shell-v\d+/g, `${slug}-shell-v1`)
-      .replaceAll(TEMPLATE_SLUG, slug)
-      .replaceAll(TEMPLATE_NAME, name);
+      .replace(/pwa-template-shell-v\d+/g, () => `${slug}-shell-v1`)
+      // A function, so that `$&` or `$$` in a name goes in as typed and not as a pattern.
+      .replaceAll(TEMPLATE_SLUG, () => slug)
+      .replaceAll(TEMPLATE_NAME, () => name);
   const writes = textFiles(root).map((file) => {
     const before = readFileSync(join(root, file), 'utf8');
     const edit = EDITS[file] ?? ((text) => text);
