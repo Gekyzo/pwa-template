@@ -216,3 +216,15 @@ test('the pane layout is documented with its parts (LAY-3)', () => {
   assert.ok(pane);
   assert.deepEqual(pane.parts.map((part) => part.name).sort(), ['pane-back', 'pane-detail', 'pane-list']);
 });
+
+test('the content and the fixed controls keep out of a cutout on either side (LAY-4)', () => {
+  const declared = (selector, property) =>
+    rules.filter((rule) => rule.selector === selector).flatMap((rule) => rule.declarations.filter((d) => d.property === property).map((d) => d.value));
+  assert.ok(declared('body', 'padding-inline-end').some((value) => value.includes('safe-area-inset-right')), 'body end padding');
+  assert.ok(declared('body', 'padding-inline-start').some((value) => value.includes('safe-area-inset-left')), 'body start padding');
+  for (const selector of ['.fab', '.toast']) {
+    assert.ok(declared(selector, 'right').some((value) => value.includes('safe-area-inset-right')), `${selector} right`);
+  }
+  assert.ok(declared('[data-hand="left"] .fab', 'left').every((value) => value.includes('safe-area-inset-left')), 'left-hand fab');
+  assert.ok(declared('.toast', 'left').every((value) => value.includes('safe-area-inset-left')), 'toast left');
+});

@@ -20,7 +20,8 @@ Rules of `styles.css` for the size classes, `src/sections.js`, `src/modules.js`,
   list, or the detail alone while an entry is open, with a **Back** button (`pane-back`). From
   840px it shows both; with no entry open the detail says `notes.pick`, and **Back** is hidden.
 - **LAY-4** The safe-area insets of the phone pad the header (top), the bar (bottom), the rail
-  (start side), the sheets, the toast, the add button and the walkthrough.
+  (start side), the sheets and the walkthrough. The page keeps out of a cutout on either side,
+  and so do the toast and the add button, which are fixed.
 
 ## Navigation
 
