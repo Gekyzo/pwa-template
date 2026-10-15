@@ -99,6 +99,7 @@ The doc keys are in [07-notes.md](07-notes.md). The device preferences are `pwa-
 | `tests/png.test.js` | The PNG encoder and decoder of `scripts/png.mjs`, which `npm run icons` uses |
 | `tests/release.test.js` | The release of `scripts/release.mjs`: the bump commit, the tag and the refusals (VER-10 to VER-12) |
 | `tests/changelog.test.js` | The release of `CHANGELOG.md` by `scripts/changelog.mjs` (VER-17) |
+| `tests/init.test.js` | The arguments of `scripts/init.mjs`, and a run of it in a copy: the new names, no trace of the template, its refusal of a second run (ENG-17) |
 | `tests/spec.test.js` | The facts of this specification that the code can prove (ENG-12) |
 
 A unit test uses `node:test` with `node:assert/strict`, one behaviour for each test, and checks
