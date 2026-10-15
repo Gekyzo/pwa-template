@@ -98,7 +98,7 @@ export const ui = {
   version: { running: null, latest: null, checking: false },
   // The install offer: `idle`, `available` or `installed` (INS-1).
   install: 'idle',
-  // True once the update toast showed in this start (VER-6).
+  // True once the update toast showed in this start (VER-18).
   updateOffered: false,
 };
 

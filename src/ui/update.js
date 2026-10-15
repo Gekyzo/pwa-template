@@ -57,7 +57,7 @@ export const refreshShell = () =>
     worker.postMessage({ type: 'refresh' }, [channel.port2]);
   });
 
-// Loads the shell of the new deploy and reloads, or says that it could not (VER-5).
+// Loads the shell of the new deploy and reloads, or says that it could not (VER-8).
 export const runUpdate = async (button = null) => {
   if (button) button.disabled = true;
   if (await refreshShell()) {
@@ -68,7 +68,7 @@ export const runUpdate = async (button = null) => {
   showToast(t('error.updateFailed'));
 };
 
-// One background check per start: a newer deploy gets a toast with Update (VER-6).
+// One background check per start: a newer deploy gets a toast with Update (VER-18).
 export const offerUpdate = async () => {
   await checkVersion();
   const status = versionStatus(ui.version.running, ui.version.latest);
