@@ -36,4 +36,7 @@ export default {
   'error.updateFailed': 'The update failed.',
   'error.invalidJson': 'The file is not JSON.',
   'error.notBackup': 'The file is not a backup of this app.',
+  'error.textRequired': 'Write a text.',
+  'error.textTooLong': 'At most {max} characters.',
+  'error.noteMissing': 'The note no longer exists.',
 };

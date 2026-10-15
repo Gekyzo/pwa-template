@@ -36,4 +36,7 @@ export default {
   'error.updateFailed': 'No se pudo actualizar.',
   'error.invalidJson': 'El archivo no es JSON.',
   'error.notBackup': 'El archivo no es una copia de esta aplicación.',
+  'error.textRequired': 'Escribe un texto.',
+  'error.textTooLong': 'Máximo {max} caracteres.',
+  'error.noteMissing': 'La nota ya no existe.',
 };
