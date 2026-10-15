@@ -1,6 +1,6 @@
 #!/bin/sh
 # A pushed release tag is a deploy (.github/workflows/pages.yml). The tag vX.Y.Z must point
-# at a commit whose version.json has the version X.Y.Z, so that Ajustes shows the version
+# at a commit whose version.json has the version X.Y.Z, so that Settings shows the version
 # that is deployed. npm run release makes such a tag; this hook stops a tag made by hand
 # that does not match. A push of main deploys nothing and passes.
 # Enable: npm run hooks. Skip: git push --no-verify.

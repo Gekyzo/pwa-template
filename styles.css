@@ -2,7 +2,7 @@
 
 @layer tokens {
   :root {
-    /* `light-dark()` takes its value from `color-scheme`: the phone, or Tema in Ajustes. */
+    /* `light-dark()` takes its value from `color-scheme`: the phone, or Theme in Settings. */
     color-scheme: light dark;
     --bg: light-dark(#f6f7f5, #111613); /* page */
     --surface: light-dark(#ffffff, #1a211d); /* rows, header, sheets */
@@ -220,7 +220,7 @@
      @example <button class="button primary icon" type="button" aria-label="Send"><svg class="icon" aria-hidden="true"><use href="icons.svg#download"/></svg></button>
      @example <button class="button icon toggle" type="button" aria-pressed="true" aria-label="Always"><svg class="icon" aria-hidden="true"><use href="icons.svg#refresh"/></svg></button>
      @example <button class="button icon" type="button" aria-label="More">⋯</button>
-     @example <button class="button primary wide" type="button">Finish the trip</button> */
+     @example <button class="button primary wide" type="button">Save the note</button> */
   .button {
     display: inline-flex;
     align-items: center;
@@ -288,7 +288,7 @@
   }
 
   /* @component chip
-     @summary A choice among several, such as a shop or a recipe. Selected with aria-pressed="true".
+     @summary A choice among several, such as a tag or a filter. Selected with aria-pressed="true".
      @variant surface  On a --bg background: the chip takes --surface.
      @part count  A number after the label, in muted text.
      @example <button class="chip" type="button">Home</button>
@@ -427,8 +427,8 @@
      @summary A one-line text box. Height --tap, on --bg.
      @variant raised  On a --bg page: the box takes --surface.
      @variant strong  The main box of a sheet, with an accent border.
-     @example <input class="input" type="text" placeholder="Nueva tienda">
-     @example <input class="input raised" type="search" placeholder="Buscar">
+     @example <input class="input" type="text" placeholder="New tag">
+     @example <input class="input raised" type="search" placeholder="Search">
      @example <input class="input strong" type="text" placeholder="Añadir artículo a la lista"> */
   .input {
     width: 100%;
@@ -453,7 +453,7 @@
        once it has a value or the focus. The placeholder only marks the empty box.
      @part field-input  The input, with the classes input field-input and a placeholder.
      @part field-label  The name, after the input.
-     @example <label class="field"><input class="input field-input" type="text" placeholder="Nombre" value="Leche"><span class="field-label">Name</span></label>
+     @example <label class="field"><input class="input field-input" type="text" placeholder="Text" value="Call Ana"><span class="field-label">Name</span></label>
      @example <label class="field"><input class="input field-input" type="text" placeholder="Cantidad"><span class="field-label">Amount</span></label> */
   .field {
     position: relative;
@@ -500,7 +500,7 @@
 
   /* @component select
      @summary A choice from a list, full width, with its own arrow.
-     @example <select class="select" aria-label="Idioma"><option>English</option></select> */
+     @example <select class="select" aria-label="Language"><option>English</option></select> */
   .select {
     appearance: none;
     display: block;
@@ -522,7 +522,7 @@
      @part app-header-text      The title and the summary, which take the free width.
      @part app-header-title     The name of the section.
      @part app-header-subtitle  The summary of the section.
-     @example <header class="app-header" style="border: 0"><div class="ring" style="--pct: 33%"><span class="ring-text">2/6</span></div><div class="app-header-text"><h1 class="app-header-title">Today</h1><p class="app-header-subtitle">4 notes left</p></div><button class="button icon" type="button" aria-label="Buscar"><svg class="icon" aria-hidden="true"><use href="icons.svg#help"/></svg></button></header> */
+     @example <header class="app-header" style="border: 0"><div class="ring" style="--pct: 33%"><span class="ring-text">2/6</span></div><div class="app-header-text"><h1 class="app-header-title">Today</h1><p class="app-header-subtitle">4 notes left</p></div><button class="button icon" type="button" aria-label="Search"><svg class="icon" aria-hidden="true"><use href="icons.svg#help"/></svg></button></header> */
   .app-header {
     display: flex;
     align-items: center;
@@ -858,8 +858,7 @@
     list-style: none;
   }
 
-  /* A ticked row closes before it goes to the bought section, and a group head before the list
-     becomes flat. `collapse` in motion.js sets the height. */
+  /* A row closes before it leaves the list, and a group head before the list becomes flat. `collapse` in motion.js sets the height. */
   .item-list > .leaving {
     overflow: hidden;
     min-height: 0;
@@ -868,17 +867,16 @@
   }
 
   /* @component item-row
-     @summary One item, or one recipe, as a row. Its body slides over its actions.
-     @variant recipe              A recipe: its name and product count, then its link and send buttons.
+     @summary One entry of a list, as a row. Its body slides over its actions.
      @part item-row-swipe         The box that clips the sliding body.
      @part item-row-body          The row itself: check, name, then buttons.
-     @part item-row-check         The round checkbox of an item of Actual.
+     @part item-row-check         The round checkbox of an entry that can be done.
      @part item-row-name          The name button, with its quantity and its meta line.
      @part item-row-qty           The quantity after the name.
-     @part item-row-meta          A muted line below the name: the shops, or the product count.
+     @part item-row-meta          A muted line below the name, such as its tags.
      @part item-row-actions       The swipe actions behind the right end.
      @part item-row-backdrop      The action under a slide to the right.
-     @state bought    A ticked item of Actual.
+     @state done      A ticked entry: its name is struck out.
      @state flash     A row that has just come back: its body flashes.
      @state gone      A row that the motion code hides at once.
      @state lifted    A row that the drag code lifts.
@@ -886,8 +884,8 @@
      @state open      On item-row-swipe: the actions show.
      @state armed     On item-row-swipe: a slide far enough to run its action.
      @state dragging  On item-row-body: the body follows the finger, with no transition.
-     @example <ul class="item-list" style="width: 100%"><li class="item-row"><div class="item-row-swipe"><div class="item-row-body"><input class="item-row-check" type="checkbox" aria-label="Leche"><button class="item-row-name" type="button"><span>Ideas <span class="item-row-qty">1 h</span></span><small class="item-row-meta">Work</small></button><button class="button icon toggle" type="button" aria-pressed="false" aria-label="Siempre"><svg class="icon" aria-hidden="true"><use href="icons.svg#refresh"/></svg></button></div></div></li><li class="item-row bought"><div class="item-row-body"><input class="item-row-check" type="checkbox" checked aria-label="Café"><button class="item-row-name" type="button"><span>Read book</span></button><button class="pill ghost" type="button">+ Later</button></div></li></ul>
-     @example <ul class="item-list" style="width: 100%"><li class="item-row"><div class="item-row-swipe open"><div class="item-row-actions"><button class="swipe-action" type="button" aria-label="A Próxima"><svg class="icon" aria-hidden="true"><use href="icons.svg#settings"/></svg></button><button class="swipe-action danger" type="button" aria-label="Borrar"><svg class="icon" aria-hidden="true"><use href="icons.svg#trash"/></svg></button></div><div class="item-row-body" style="transform: translateX(-128px)"><button class="item-row-name" type="button"><span>Call Ana</span></button></div></div></li></ul> */
+     @example <ul class="item-list" style="width: 100%"><li class="item-row"><div class="item-row-swipe"><div class="item-row-body"><input class="item-row-check" type="checkbox" aria-label="Call Ana"><button class="item-row-name" type="button"><span>Ideas <span class="item-row-qty">1 h</span></span><small class="item-row-meta">Work</small></button><button class="button icon toggle" type="button" aria-pressed="false" aria-label="Repeat"><svg class="icon" aria-hidden="true"><use href="icons.svg#refresh"/></svg></button></div></div></li><li class="item-row done"><div class="item-row-body"><input class="item-row-check" type="checkbox" checked aria-label="Read book"><button class="item-row-name" type="button"><span>Read book</span></button><button class="pill ghost" type="button">+ Later</button></div></li></ul>
+     @example <ul class="item-list" style="width: 100%"><li class="item-row"><div class="item-row-swipe open"><div class="item-row-actions"><button class="swipe-action" type="button" aria-label="Move"><svg class="icon" aria-hidden="true"><use href="icons.svg#settings"/></svg></button><button class="swipe-action danger" type="button" aria-label="Delete"><svg class="icon" aria-hidden="true"><use href="icons.svg#trash"/></svg></button></div><div class="item-row-body" style="transform: translateX(-128px)"><button class="item-row-name" type="button"><span>Call Ana</span></button></div></div></li></ul> */
   .item-row {
     border-bottom: 1px solid var(--line);
     background: var(--surface);
@@ -1011,12 +1009,12 @@
     text-align: left;
   }
 
-  /* A row of Próxima has no checkbox: its name keeps the place of one. */
+  /* A row with no checkbox: its name keeps the place of one. */
   .item-row-body > .item-row-name:first-child {
     padding-left: var(--space-3);
   }
 
-  .item-row.bought .item-row-name {
+  .item-row.done .item-row-name {
     color: var(--muted);
     text-decoration: line-through;
   }
@@ -1034,7 +1032,7 @@
   /* @component swipe-action
      @summary An action behind the right end of a row, shown by a slide to the left.
      @variant danger  Removes the item.
-     @example <div style="display: flex; height: 56px"><button class="swipe-action" type="button" aria-label="A Próxima"><svg class="icon" aria-hidden="true"><use href="icons.svg#settings"/></svg></button><button class="swipe-action danger" type="button" aria-label="Borrar"><svg class="icon" aria-hidden="true"><use href="icons.svg#trash"/></svg></button></div> */
+     @example <div style="display: flex; height: 56px"><button class="swipe-action" type="button" aria-label="Move"><svg class="icon" aria-hidden="true"><use href="icons.svg#settings"/></svg></button><button class="swipe-action danger" type="button" aria-label="Delete"><svg class="icon" aria-hidden="true"><use href="icons.svg#trash"/></svg></button></div> */
   .swipe-action {
     display: grid;
     place-items: center;
@@ -1055,7 +1053,7 @@
   }
 
   /* @component section-head
-     @summary The row that opens and closes a part of a list, such as the bought items.
+     @summary The row that opens and closes a part of a list, such as the done entries.
      @part section-head-button  The full-width button, with aria-expanded.
      @part chevron              The open or closed sign at its end.
      @example <ul class="item-list" style="width: 100%"><li class="section-head"><button class="section-head-button" type="button" aria-expanded="false"><span>2 done</span><span class="chevron">▸</span></button></li></ul> */
@@ -1080,7 +1078,7 @@
   }
 
   /* @component group-head
-     @summary The title of a group of a list, by recipe or by shop, with its count.
+     @summary The title of a group of a list, such as a tag, with its count.
      @example <ul class="item-list" style="width: 100%"><li class="group-head"><span>Work</span><span>2</span></li></ul> */
   .group-head {
     display: flex;
@@ -1098,14 +1096,14 @@
   }
 
   /* @component list-group
-     @summary A box of rows on a --bg page, as in Ajustes.
+     @summary A box of rows on a --bg page, as in Settings.
      @variant pair   Two rows side by side.
      @variant plain  No box: rows split by lines, as the suggestions of a search.
      @part list-row       A row: an icon and a text, or a control.
      @part list-row-text  The main text of a row that has two.
      @part list-row-meta  A muted text at the end of a row.
      @variant accent      On list-row: the row that makes a new thing.
-     @example <div class="list-group" style="width: 100%"><button class="list-row" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#help"/></svg><span>Show the introduction</span></button><select class="select" aria-label="Idioma"><option>English</option></select></div>
+     @example <div class="list-group" style="width: 100%"><button class="list-row" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#help"/></svg><span>Show the introduction</span></button><select class="select" aria-label="Language"><option>English</option></select></div>
      @example <div class="list-group pair" style="width: 100%"><button class="list-row" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#export"/></svg><span>Export</span></button><button class="list-row" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#import"/></svg><span>Import</span></button></div>
      @example <ul class="list-group plain" style="width: 100%"><li><button class="list-row" type="button"><span class="list-row-text">Buy milk</span><span class="list-row-meta">In Notes</span></button></li><li><button class="list-row accent" type="button">Create «Buy»</button></li></ul> */
   .list-group {
@@ -1260,7 +1258,7 @@
   }
   /* @component input-row
      @summary An input that grows, and the button that submits it.
-     @example <div class="input-row"><input class="input" type="text" placeholder="Nueva tienda"><button class="button primary" type="button">Add</button></div> */
+     @example <div class="input-row"><input class="input" type="text" placeholder="New tag"><button class="button primary" type="button">Add</button></div> */
   .input-row {
     display: flex;
     gap: var(--space-2);
@@ -1402,7 +1400,7 @@
      @scope settings
      @summary The Settings section: titled list groups, then the about lines. One centred column from 600px.
      @part settings-title  The title above a list group.
-     @example <section class="settings" style="width: 100%"><h2 class="settings-title">Language</h2><div class="list-group"><select class="select" aria-label="Idioma"><option>English</option></select></div></section> */
+     @example <section class="settings" style="width: 100%"><h2 class="settings-title">Language</h2><div class="list-group"><select class="select" aria-label="Language"><option>English</option></select></div></section> */
   .settings {
     width: 100%;
     max-width: var(--content-max);
@@ -1419,7 +1417,7 @@
 
   /* @component about
      @scope settings
-     @summary The version lines at the end of Ajustes.
+     @summary The version lines at the end of Settings.
      @part about-line  One line: the version and its state.
      @example <footer class="about"><p class="about-line"><span>Version 0.1.0</span></p></footer> */
   .about {

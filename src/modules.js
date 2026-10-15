@@ -1,6 +1,6 @@
 import { SECTIONS } from '#sections';
 
-// The modules that the user can turn off in Ajustes, by id.
+// The modules that the user can turn off in Settings, by id.
 export const MODULES = ['notes'];
 
 // The sections that a module shows.

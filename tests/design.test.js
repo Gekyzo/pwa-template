@@ -228,3 +228,9 @@ test('the content and the fixed controls keep out of a cutout on either side (LA
   assert.ok(declared('[data-hand="left"] .fab', 'left').every((value) => value.includes('safe-area-inset-left')), 'left-hand fab');
   assert.ok(declared('.toast', 'left').every((value) => value.includes('safe-area-inset-left')), 'toast left');
 });
+
+test('the doc comments of the design system carry no words of another app', () => {
+  const docs = [...css.matchAll(/\/\*[\s\S]*?\*\//g)].map(([comment]) => comment).join('\n');
+  const foreign = /\b(Leche|Café|Siempre|Buscar|Nueva tienda|Nombre|Idioma|Borrar|Próxima|Actual|recipes?|shops?|trip|bought|products?|groceries)\b/gi;
+  assert.deepEqual([...new Set(docs.match(foreign) ?? [])], []);
+});
