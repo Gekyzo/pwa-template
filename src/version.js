@@ -35,3 +35,6 @@ export const nextVersion = (current, now, level = 'patch') => {
   const next = parts(current.version).map((part, at) => (at < index ? part : at === index ? part + 1 : 0));
   return { version: next.join('.'), date };
 };
+
+// The toast of a new deploy shows at most once per start, and only when the deploy is newer (VER-6).
+export const shouldOfferUpdate = (status, offered) => status === 'outdated' && !offered;
