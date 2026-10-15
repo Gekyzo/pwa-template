@@ -131,7 +131,7 @@
      @summary The scrolling area of a section, between the header and the bottom bar.
      @state enter-next      The content comes in from the right, after a change of section.
      @state enter-previous  The content comes in from the left.
-     @example <p class="hint">The main element holds the sections; it has no example of its own.</p> */
+     @example <p>The main element holds the sections; it has no example of its own.</p> */
   main {
     flex: 1;
     overflow-y: auto;
@@ -169,8 +169,8 @@
   /* @component icon
      @summary A line icon of icons.svg. It takes the colour of the text around it.
      @variant small  The size --icon-s, for an icon beside a label.
-     @example <svg class="icon" aria-hidden="true"><use href="icons.svg#cart"/></svg>
-     @example <svg class="icon small" aria-hidden="true"><use href="icons.svg#cart-add"/></svg> */
+     @example <svg class="icon" aria-hidden="true"><use href="icons.svg#note"/></svg>
+     @example <svg class="icon small" aria-hidden="true"><use href="icons.svg#download"/></svg> */
   .icon {
     flex: none;
     width: var(--icon);
@@ -203,8 +203,8 @@
      @example <button class="button outline danger" type="button">Delete</button>
      @example <button class="button outline quiet" type="button">Skip</button>
      @example <button class="button accent" type="button">Update</button>
-     @example <button class="button primary icon" type="button" aria-label="Send"><svg class="icon" aria-hidden="true"><use href="icons.svg#cart-add"/></svg></button>
-     @example <button class="button icon toggle" type="button" aria-pressed="true" aria-label="Always"><svg class="icon" aria-hidden="true"><use href="icons.svg#repeat"/></svg></button>
+     @example <button class="button primary icon" type="button" aria-label="Send"><svg class="icon" aria-hidden="true"><use href="icons.svg#download"/></svg></button>
+     @example <button class="button icon toggle" type="button" aria-pressed="true" aria-label="Always"><svg class="icon" aria-hidden="true"><use href="icons.svg#refresh"/></svg></button>
      @example <button class="button icon" type="button" aria-label="More">⋯</button>
      @example <button class="button primary wide" type="button">Finish the trip</button> */
   .button {
@@ -279,7 +279,7 @@
      @part count  A number after the label, in muted text.
      @example <button class="chip" type="button">Home</button>
      @example <button class="chip" type="button" aria-pressed="true">Work</button>
-     @example <div class="cluster shop-lists" style="background: var(--bg)"><button class="chip surface" type="button" aria-pressed="true"><span>All</span><span class="count">4</span></button><button class="chip surface" type="button"><span>Home</span><span class="count">1</span></button></div> */
+     @example <div class="cluster" style="background: var(--bg)"><button class="chip surface" type="button" aria-pressed="true"><span>All</span><span class="count">4</span></button><button class="chip surface" type="button"><span>Home</span><span class="count">1</span></button></div> */
   .chip {
     min-height: var(--tap);
     padding: 0 var(--space-4);
@@ -508,7 +508,7 @@
      @part app-header-text      The title and the summary, which take the free width.
      @part app-header-title     The name of the section.
      @part app-header-subtitle  The summary of the section.
-     @example <header class="app-header" style="border: 0"><div class="ring" style="--pct: 33%"><span class="ring-text">2/6</span></div><div class="app-header-text"><h1 class="app-header-title">Today</h1><p class="app-header-subtitle">4 notes left</p></div><button class="button icon" type="button" aria-label="Buscar"><svg class="icon" aria-hidden="true"><use href="icons.svg#search"/></svg></button></header> */
+     @example <header class="app-header" style="border: 0"><div class="ring" style="--pct: 33%"><span class="ring-text">2/6</span></div><div class="app-header-text"><h1 class="app-header-title">Today</h1><p class="app-header-subtitle">4 notes left</p></div><button class="button icon" type="button" aria-label="Buscar"><svg class="icon" aria-hidden="true"><use href="icons.svg#help"/></svg></button></header> */
   .app-header {
     display: flex;
     align-items: center;
@@ -574,7 +574,7 @@
   /* @component nav-bar
      @summary The bottom bar: one item for each section that is on.
      @part nav-item  A section: its icon and its name. The current one has aria-current="page".
-     @example <nav class="nav-bar" style="width: 100%"><button class="nav-item" type="button" aria-current="page"><svg class="icon" aria-hidden="true"><use href="icons.svg#cart"/></svg><span>Notes</span></button><button class="nav-item" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#calendar"/></svg><span>Later</span><em class="badge">2</em></button></nav> */
+     @example <nav class="nav-bar" style="width: 100%"><button class="nav-item" type="button" aria-current="page"><svg class="icon" aria-hidden="true"><use href="icons.svg#note"/></svg><span>Notes</span></button><button class="nav-item" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#settings"/></svg><span>Later</span><em class="badge">2</em></button></nav> */
   .nav-bar {
     display: flex;
     flex: none;
@@ -806,7 +806,7 @@
   }
 
   /* @component item-list
-     @summary The list of a section: item rows, section heads, group heads and hints.
+     @summary The list of a section: item rows, section heads and group heads.
      @example <ul class="item-list"><li class="item-row"><div class="item-row-body"><button class="item-row-name" type="button"><span>Call Ana</span></button></div></li></ul> */
   .item-list {
     margin: 0;
@@ -842,8 +842,8 @@
      @state open      On item-row-swipe: the actions show.
      @state armed     On item-row-swipe: a slide far enough to run its action.
      @state dragging  On item-row-body: the body follows the finger, with no transition.
-     @example <ul class="item-list" style="width: 100%"><li class="item-row"><div class="item-row-swipe"><div class="item-row-body"><input class="item-row-check" type="checkbox" aria-label="Leche"><button class="item-row-name" type="button"><span>Ideas <span class="item-row-qty">1 h</span></span><small class="item-row-meta">Work</small></button><button class="button icon toggle" type="button" aria-pressed="false" aria-label="Siempre"><svg class="icon" aria-hidden="true"><use href="icons.svg#repeat"/></svg></button></div></div></li><li class="item-row bought"><div class="item-row-body"><input class="item-row-check" type="checkbox" checked aria-label="Café"><button class="item-row-name" type="button"><span>Read book</span></button><button class="pill ghost" type="button">+ Later</button></div></li></ul>
-     @example <ul class="item-list" style="width: 100%"><li class="item-row"><div class="item-row-swipe open"><div class="item-row-actions"><button class="swipe-action" type="button" aria-label="A Próxima"><svg class="icon" aria-hidden="true"><use href="icons.svg#calendar"/></svg></button><button class="swipe-action danger" type="button" aria-label="Borrar"><svg class="icon" aria-hidden="true"><use href="icons.svg#trash"/></svg></button></div><div class="item-row-body" style="transform: translateX(-128px)"><button class="item-row-name" type="button"><span>Call Ana</span></button></div></div></li></ul> */
+     @example <ul class="item-list" style="width: 100%"><li class="item-row"><div class="item-row-swipe"><div class="item-row-body"><input class="item-row-check" type="checkbox" aria-label="Leche"><button class="item-row-name" type="button"><span>Ideas <span class="item-row-qty">1 h</span></span><small class="item-row-meta">Work</small></button><button class="button icon toggle" type="button" aria-pressed="false" aria-label="Siempre"><svg class="icon" aria-hidden="true"><use href="icons.svg#refresh"/></svg></button></div></div></li><li class="item-row bought"><div class="item-row-body"><input class="item-row-check" type="checkbox" checked aria-label="Café"><button class="item-row-name" type="button"><span>Read book</span></button><button class="pill ghost" type="button">+ Later</button></div></li></ul>
+     @example <ul class="item-list" style="width: 100%"><li class="item-row"><div class="item-row-swipe open"><div class="item-row-actions"><button class="swipe-action" type="button" aria-label="A Próxima"><svg class="icon" aria-hidden="true"><use href="icons.svg#settings"/></svg></button><button class="swipe-action danger" type="button" aria-label="Borrar"><svg class="icon" aria-hidden="true"><use href="icons.svg#trash"/></svg></button></div><div class="item-row-body" style="transform: translateX(-128px)"><button class="item-row-name" type="button"><span>Call Ana</span></button></div></div></li></ul> */
   .item-row {
     border-bottom: 1px solid var(--line);
     background: var(--surface);
@@ -990,7 +990,7 @@
   /* @component swipe-action
      @summary An action behind the right end of a row, shown by a slide to the left.
      @variant danger  Removes the item.
-     @example <div style="display: flex; height: 56px"><button class="swipe-action" type="button" aria-label="A Próxima"><svg class="icon" aria-hidden="true"><use href="icons.svg#calendar"/></svg></button><button class="swipe-action danger" type="button" aria-label="Borrar"><svg class="icon" aria-hidden="true"><use href="icons.svg#trash"/></svg></button></div> */
+     @example <div style="display: flex; height: 56px"><button class="swipe-action" type="button" aria-label="A Próxima"><svg class="icon" aria-hidden="true"><use href="icons.svg#settings"/></svg></button><button class="swipe-action danger" type="button" aria-label="Borrar"><svg class="icon" aria-hidden="true"><use href="icons.svg#trash"/></svg></button></div> */
   .swipe-action {
     display: grid;
     place-items: center;
@@ -1236,6 +1236,24 @@
   [data-hand="left"] .split > .hand-side {
     grid-column: 1;
   }
+
+  /* @component pane
+     @summary A list and the detail of one entry. One of them shows at a time while an entry is open.
+     @part pane-list  The list. Hidden while a detail is open.
+     @part pane-detail  The detail. Hidden while no entry is open.
+     @state data-detail  An entry is open.
+     @example <div class="pane" data-detail style="width: 100%"><div class="pane-list"><p>List</p></div><div class="pane-detail"><p>Detail</p></div></div> */
+  .pane-detail {
+    display: none;
+  }
+
+  .pane[data-detail] > .pane-list {
+    display: none;
+  }
+
+  .pane[data-detail] > .pane-detail {
+    display: block;
+  }
 }
 
 @layer screens {
@@ -1331,7 +1349,7 @@
   /* @component dust
      @scope nav
      @summary The canvas of the dust effect of a nav item that goes away or comes back.
-     @example <p class="hint">The dust canvas is drawn by nav.js; it has no example of its own.</p> */
+     @example <p>The dust canvas is drawn by dust.js; it has no example of its own.</p> */
   .dust {
     position: fixed;
     z-index: 40;
