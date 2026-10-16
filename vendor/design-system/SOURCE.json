@@ -1,0 +1,9 @@
+{
+  "version": "0.1.0",
+  "commit": "8477f6a5d30fcece0928aa3b0f2b989941df9da7",
+  "files": {
+    "design-system.css": "46edf0b3b189927c752668c1ef5fbd571fbe99c6234fce8c95113bcc861fc66c",
+    "catalog.js": "7da6a5dce84841971cbe7b092cdba7f7b7fa17e9347f80f18667edc329e00a92",
+    "rules.js": "27db66503ebc8ff6201c282a48b2b557adebe6d171c9fdf369378be257343bd0"
+  }
+}

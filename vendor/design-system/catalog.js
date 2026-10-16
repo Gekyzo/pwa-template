@@ -126,7 +126,9 @@ export const blocksOf = (css) =>
 
 const scaleOf = (name) => SCALES.find(([prefix]) => name.startsWith(prefix))?.[1] ?? 'colour';
 
-export const parseCatalog = ({ css, sprite }) => {
+// `css` is one string or an array of strings, read in order.
+export const parseCatalog = ({ css: source, sprite }) => {
+  const css = Array.isArray(source) ? source.join('\n') : source;
   const rules = rulesOf(css);
   const { comments } = splitComments(css);
   const notes = new Map(comments.map(({ text, line }) => [line, text.slice(2, -2).trim()]));
