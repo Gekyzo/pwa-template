@@ -95,8 +95,8 @@ The doc keys are in [07-notes.md](07-notes.md). The device preferences are `pwa-
 | `tests/markup.test.js` | `index.html` holds no text of its own; the sheet and the walkthrough markup |
 | `tests/aliases.test.js` | The import map against `package.json` |
 | `tests/layers.test.js` | The layer rules and `SHELL` (ENG-16) |
-| `tests/design.test.js` | Each rule of `vendor/design-system/rules.js` over the two stylesheets, `index.html`, `icons.svg`, `src/ui/` and `designs/` |
-| `tests/vendor.test.js` | The copy of the design system: its hashes, its place in `index.html` and `SHELL`, no copied rule in `styles.css` (DSV-1 to DSV-3) |
+| `tests/design.test.js` | Each rule of `vendor/design-system/rules.js` over the two stylesheets, `index.html`, `icons.svg`, `src/ui/` and `designs/`, and the parts of `styles.css` (DSV-3) |
+| `tests/vendor.test.js` | The copy of the design system: its hashes, its files, its place in `index.html`, `designs/index.html` and `SHELL`, no copied rule in `styles.css` (DSV-1 to DSV-3) |
 | `tests/png.test.js` | The PNG encoder and decoder of `scripts/png.mjs`, which `npm run icons` uses |
 | `tests/release.test.js` | The release of `scripts/release.mjs`: the bump commit, the tag and the refusals (VER-10 to VER-12) |
 | `tests/changelog.test.js` | The release of `CHANGELOG.md` by `scripts/changelog.mjs` (VER-17) |

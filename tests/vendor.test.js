@@ -7,15 +7,20 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 const root = new URL('../', import.meta.url);
 const read = (path) => readFileSync(new URL(path, root), 'utf8');
 const VENDOR = 'vendor/design-system/';
-const vendored = existsSync(new URL(VENDOR, root));
+const vendored = existsSync(new URL(`${VENDOR}SOURCE.json`, root));
 const source = vendored ? JSON.parse(read(`${VENDOR}SOURCE.json`)) : { files: {} };
-const sheets = vendored ? readdirSync(new URL(VENDOR, root)).filter((file) => file.endsWith('.css')) : [];
+const listing = existsSync(new URL(VENDOR, root)) ? readdirSync(new URL(VENDOR, root)).sort() : [];
+const sheets = listing.filter((file) => file.endsWith('.css'));
 
 test('vendor/design-system/ has SOURCE.json with the version, the commit and the files', () => {
   assert.ok(vendored, 'run npm run ds');
   assert.match(source.version ?? '', /^\d+\.\d+\.\d+$/);
   assert.match(source.commit ?? '', /^[0-9a-f]{40}$/);
   assert.deepEqual(Object.keys(source.files).sort(), ['catalog.js', 'design-system.css', 'rules.js']);
+});
+
+test('vendor/design-system/ holds the files of SOURCE.json and SOURCE.json only', () => {
+  assert.deepEqual(listing, [...Object.keys(source.files), 'SOURCE.json'].sort());
 });
 
 test('each vendored file has the sha256 of SOURCE.json', () => {
@@ -31,26 +36,40 @@ test('SHELL of sw.js has each vendored stylesheet', () => {
   for (const file of sheets) assert.ok(sw.includes(`'./${VENDOR}${file}'`), file);
 });
 
+const stylesheets = (html, prefix) =>
+  [...html.matchAll(/<link rel="stylesheet" href="([^"]+)">/g)].map(([, href]) => href).filter((href) => href.startsWith(prefix)).map((href) => href.slice(prefix.length));
+
 test('index.html links the shared stylesheet before styles.css', () => {
-  const links = [...read('index.html').matchAll(/<link rel="stylesheet" href="\.\/([^"]+)">/g)].map(([, href]) => href);
-  assert.deepEqual(links, [`${VENDOR}design-system.css`, 'styles.css']);
+  assert.deepEqual(stylesheets(read('index.html'), './'), [`${VENDOR}design-system.css`, 'styles.css']);
 });
 
-// The comments of `css` that open a part: `@component name` or `Overrides name of the design system.`
+test('designs/index.html links the shared stylesheet before styles.css', () => {
+  assert.deepEqual(stylesheets(read('designs/index.html'), '../'), [`${VENDOR}design-system.css`, 'styles.css']);
+});
+
+// The comments of `css` that open a part: `@component name` or `@extends name` (an override).
 const markersOf = (css) =>
   [...css.matchAll(/\/\*[\s\S]*?\*\//g)]
     .map(({ 0: text, index }) => ({ text, line: css.slice(0, index).split('\n').length }))
-    .filter(({ text }) => /@component\s|Overrides [\w-]+ of the design system/.test(text));
+    .filter(({ text }) => /^\/\*\s*@(component|extends)\s/.test(text));
 
-test('a rule of styles.css with a shared selector follows an Overrides comment', async () => {
+const own = (rule) => ['components', 'layouts'].includes(rule.layer) && !rule.keyframe;
+
+test('a rule of styles.css with a shared selector follows an @extends block', async () => {
   const { rulesOf } = await import(`../${VENDOR}catalog.js`);
   const app = read('styles.css');
-  const own = (rule) => ['components', 'layouts'].includes(rule.layer) && !rule.keyframe;
   const shared = new Set(rulesOf(read(`${VENDOR}design-system.css`)).filter(own).map((rule) => rule.selector));
   const markers = markersOf(app);
   const copies = rulesOf(app)
     .filter((rule) => own(rule) && shared.has(rule.selector))
-    .filter((rule) => !/Overrides/.test(markers.filter((marker) => marker.line < rule.line).at(-1)?.text ?? ''))
+    .filter((rule) => !/^\/\*\s*@extends\s/.test(markers.filter((marker) => marker.line < rule.line).at(-1)?.text ?? ''))
     .map((rule) => `${rule.line}: ${rule.selector}`);
   assert.deepEqual(copies, []);
+});
+
+test('an @extends block of styles.css names a shared component', async () => {
+  const { parseCatalog } = await import(`../${VENDOR}catalog.js`);
+  const names = new Set(parseCatalog({ css: read(`${VENDOR}design-system.css`), sprite: '' }).components.map((part) => part.name));
+  const overrides = [...read('styles.css').matchAll(/\/\*\s*@extends\s+([\w-]+)/g)].map(([, name]) => name);
+  assert.deepEqual(overrides.filter((name) => !names.has(name)), []);
 });

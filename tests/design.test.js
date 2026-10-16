@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { RULES } from '../vendor/design-system/rules.js';
+import { parseCatalog } from '../vendor/design-system/catalog.js';
 
 // The rules of the design system (docs/spec/04-design-system.md) over the files of the app.
 const root = new URL('../', import.meta.url);
@@ -22,4 +23,17 @@ test('the rules read the shared stylesheet and styles.css', () => {
   assert.equal(files.css.length, 2);
 });
 
+test('the design system has rules to run', () => {
+  assert.ok(RULES.length > 0);
+});
+
 for (const rule of RULES) test(rule.title, () => assert.deepEqual(rule.check(files), []));
+
+test('the parts of the app are documented in styles.css (DSV-3)', () => {
+  const names = parseCatalog({ css: read('styles.css'), sprite: files.sprite }).components.map((part) => part.name);
+  for (const name of ['version-status', 'settings', 'about', 'dust', 'onboarding', 'onboarding-art']) assert.ok(names.includes(name), name);
+});
+
+test('styles.css has no version of a shared component (DSV-3)', () => {
+  assert.deepEqual([...read('styles.css').matchAll(/\/\*\s*@extends\s+([\w-]+)/g)].map(([, name]) => name), []);
+});
