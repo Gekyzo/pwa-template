@@ -21,6 +21,7 @@ A small notes list shows each part in use. Replace it with the domain of the app
 4. Replace `icons/source.png` (512×512, art inside the centre 80%), then `npm run icons`.
 5. Replace or delete the notes demo. `docs/spec/07-notes.md` lists its files.
 6. `npm test`.
+7. Go through [docs/deploy-checklist.md](docs/deploy-checklist.md) before the first deploy.
 
 ## Develop
 
@@ -36,6 +37,8 @@ Open the deployed URL in Chrome. Use the **Install** button of Settings, or Chro
 **Install app**.
 
 ## Release and deploy
+
+Go through [docs/deploy-checklist.md](docs/deploy-checklist.md) first.
 
 1. Write the user-visible changes under `## Unreleased` in `CHANGELOG.md`.
 2. `npm run release` (or `npm run release -- minor|major`). It commits `Bump version to X.Y.Z`
