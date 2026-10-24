@@ -4,6 +4,7 @@ User-visible changes, newest first.
 
 ## Unreleased
 
+- The message that shows after an action, with its undo, is a raised card in the colours of the screen. It is no longer a black box in light and a white box in dark.
 - The icon of Settings is a gear, as in the other apps of the family.
 - The new look of the family of apps: the Geist font, a stone ground, square corners and green
   for the main action. From 600px the rail stands at the side of the hand.
