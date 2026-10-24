@@ -109,6 +109,23 @@ Rules of `sw.js`, `src/version.js`, `version.json`, `scripts/bump-version.mjs`,
 - **VER-20** A bump releases each release-notes file as VER-17 releases `CHANGELOG.md`, and the
   release commit holds them. `npm run release` stops, and writes nothing, when `Unreleased` has
   notes in some languages and not in the others; the error names the languages with none.
+- **VER-21** At each start the app reads the release notes of the language of the screen, or
+  `release-notes/en.md` when that file cannot be read. Each file is in `SHELL`. It compares the
+  running version with the stored seen version (`<slug>.seen-version`):
+  - nothing stored (a first start, or a start from before this rule): it stores the running
+    version and shows nothing;
+  - the notes have versions newer than the seen one: the **What's new** sheet shows them
+    (VER-22), and its close stores the running version. While the walkthrough is open, the
+    sheet waits for the next start;
+  - otherwise it stores the running version and shows nothing.
+
+  A storage that cannot be read shows nothing.
+- **VER-22** The **What's new** sheet has the title `whatsNew.title` and `whatsNew.close`, and
+  one block for each version, newest first: `whatsNew.version` with the day in the long form of
+  the language, then the notes as a list. A `` `name` `` in a note shows as the key of the
+  walkthrough. The veil, `Close`, a drag down and `Escape` close it.
+- **VER-23** **Help** in Settings has the row `settings.whatsNew`, which shows the sheet with
+  every version. The row is hidden while the notes have no version.
 
 ## Installation
 
