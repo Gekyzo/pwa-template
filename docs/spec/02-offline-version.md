@@ -108,16 +108,19 @@ Rules of `sw.js`, `src/version.js`, `version.json`, `scripts/bump-version.mjs`,
   technical changes.
 - **VER-20** A bump releases each release-notes file as VER-17 releases `CHANGELOG.md`, and the
   release commit holds them. `npm run release` stops, and writes nothing, when `Unreleased` has
-  notes in some languages and not in the others; the error names the languages with none.
+  notes in some languages and not in the others, or when the files do not have the same released
+  versions; the error names the languages.
 - **VER-21** At each start the app reads the release notes of the language of the screen, or
-  `release-notes/en.md` when that file cannot be read. Each file is in `SHELL`. It compares the
-  running version with the stored seen version (`<slug>.seen-version`):
+  `release-notes/en.md` when that file cannot be read. Each file is in `SHELL`. It compares them
+  with the stored seen version (`<slug>.seen-version`) and the running version (`nextSeen`):
   - nothing stored (a first start, or a start from before this rule): it stores the running
     version and shows nothing;
-  - the notes have versions newer than the seen one: the **What's new** sheet shows them
-    (VER-22), and its close stores the running version. While the walkthrough is open, the
-    sheet waits for the next start;
-  - otherwise it stores the running version and shows nothing.
+  - no notes could be read, or the walkthrough or another sheet covers the screen: it shows and
+    stores nothing, and the next start tries again;
+  - the notes have versions after the seen one and not after the running one: the **What's new**
+    sheet shows them (VER-22), and its close stores the newest of them. A running version whose
+    notes are not in the cache yet thus stays unseen;
+  - otherwise it shows and stores nothing. The seen version never goes down.
 
   A storage that cannot be read shows nothing.
 - **VER-22** The **What's new** sheet has the title `whatsNew.title` and `whatsNew.close`, and

@@ -1,4 +1,4 @@
-import { parseNotes, unseen } from '#whatsnew';
+import { parseNotes, nextSeen } from '#whatsnew';
 import { textParts } from '#onboarding';
 import { intlTag } from '#i18n';
 import { loadSeen, saveSeen } from '#storage';
@@ -6,7 +6,7 @@ import { bindSheetDrag } from '#ds/sheet';
 import { $, el, storage, ui, t, lang } from '#ui/context';
 
 // The release notes of the language of the screen, or of English when that file cannot be read
-// (VER-19). An empty list when neither can.
+// (VER-19). Null when neither can.
 const loadNotes = async () => {
   for (const code of new Set([lang, 'en'])) {
     try {
@@ -16,7 +16,7 @@ const loadNotes = async () => {
       // The next language, or no notes.
     }
   }
-  return [];
+  return null;
 };
 
 // A note with its `name` spans, as the onboarding text shows them.
@@ -50,31 +50,26 @@ export const closeWhatsNew = () => {
   if (ui.view === 'settings') $('show-whatsnew').focus();
 };
 
-// At a start: the notes of the versions after the seen one, once (VER-21). A first start, or a
-// storage that cannot be read, shows nothing; the walkthrough is the text of a first start.
+// At a start: the notes of the versions after the seen one, once (VER-21). A storage that cannot
+// be read shows nothing.
 export const startWhatsNew = async (running) => {
   const entries = await loadNotes();
-  $('show-whatsnew').hidden = entries.length === 0;
+  $('show-whatsnew').hidden = !entries?.length;
   if (!storage || !running) return;
-  const seen = loadSeen(storage);
-  const save = () => saveSeen(storage, running.version);
-  if (seen === null) {
-    save();
-    return;
-  }
-  const fresh = unseen(entries, seen);
-  if (fresh.length === 0) {
-    save();
-    return;
-  }
-  // The walkthrough is open: the notes wait for the next start.
-  if (ui.onboarding !== null) return;
-  openWhatsNew(fresh, { done: save });
+  // The walkthrough or another sheet covers the screen: the notes wait for the next start.
+  const blocked = ui.onboarding !== null || document.querySelector('.sheet-layer:not([hidden])') !== null;
+  const { show, store } = nextSeen({ entries: entries ?? [], seen: loadSeen(storage), running: running.version, loaded: entries !== null, blocked });
+  const save = () => store && saveSeen(storage, store);
+  if (show.length) openWhatsNew(show, { done: save });
+  else save();
 };
 
 export const bind = () => {
   $('whatsnew-veil').addEventListener('click', closeWhatsNew);
   $('whatsnew-close').addEventListener('click', closeWhatsNew);
   bindSheetDrag($('whatsnew-sheet'), { close: closeWhatsNew });
-  $('show-whatsnew').addEventListener('click', async () => openWhatsNew(await loadNotes()));
+  $('show-whatsnew').addEventListener('click', async () => {
+    const entries = await loadNotes();
+    if (entries?.length) openWhatsNew(entries);
+  });
 };
