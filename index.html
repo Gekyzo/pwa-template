@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
-    <meta name="theme-color" content="#1f7a4d" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#111613" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f4f3f1" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)">
     <title>PWA Template</title>
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="icon" href="./icons/icon-192.png" type="image/png">
@@ -31,11 +31,12 @@
           <ul id="note-list" class="item-list"></ul>
           <div id="notes-empty" class="empty-state" hidden>
             <p data-i18n="notes.empty"></p>
+            <button id="notes-add" class="button primary" type="button" data-i18n="notes.add"></button>
           </div>
         </div>
         <article id="note-detail" class="pane-detail">
           <button id="note-back" class="button quiet pane-back" type="button" data-i18n="notes.back"></button>
-          <p id="note-detail-empty" class="empty-state" data-i18n="notes.pick"></p>
+          <p id="note-detail-empty" class="empty-state inline" data-i18n="notes.pick"></p>
           <p id="note-detail-text"></p>
           <div id="note-actions" class="cluster">
             <button id="note-edit" class="button outline" type="button" data-i18n="notes.edit"></button>
@@ -98,9 +99,11 @@
       <div id="note-veil" class="sheet-veil"></div>
       <form id="note-form" class="sheet" role="dialog" aria-modal="true" aria-labelledby="note-sheet-title" autocomplete="off">
         <div class="sheet-grab"></div>
-        <h2 id="note-sheet-title" class="sheet-title"></h2>
-        <label class="field"><textarea id="note-text" class="input" maxlength="200" rows="3" required></textarea><span class="field-label" data-i18n="notes.text"></span></label>
-        <button class="button primary wide" type="submit" data-i18n="notes.save"></button>
+        <header class="sheet-head"><h2 id="note-sheet-title" class="sheet-title main"></h2><button id="note-close" class="button tonal" type="button" data-i18n="notes.close"></button></header>
+        <div class="sheet-body">
+          <label class="field"><textarea id="note-text" class="input field-input" maxlength="200" rows="3" required data-i18n-attr="placeholder:notes.text"></textarea><span class="field-label" data-i18n="notes.text"></span></label>
+        </div>
+        <footer class="sheet-foot"><button class="button primary wide" type="submit" data-i18n="notes.save"></button></footer>
       </form>
     </div>
 
@@ -139,6 +142,7 @@
       {
         "imports": {
           "#app": "./src/app.js",
+          "#ds/sheet": "./vendor/design-system/sheet.js",
           "#config": "./src/config.js",
           "#notes": "./src/notes.js",
           "#install": "./src/install.js",

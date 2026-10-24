@@ -48,7 +48,9 @@ test('init renames the app, resets the version and leaves no trace of the templa
     assert.equal(result.status, 0, result.stderr);
     const read = (path) => readFileSync(join(dir, path), 'utf8');
     assert.match(read('src/config.js'), /APP_SLUG = 'gym-log'/);
+    // The template may be past v1; a new app has no old cache, so it starts again at v1.
     assert.match(read('sw.js'), /const CACHE = 'gym-log-shell-v1'/);
+    assert.doesNotMatch(read('docs/spec/02-offline-version.md'), /gym-log-shell-v(?!1\b)/);
     assert.match(read('sw.js'), /const MANIFEST = 'gym-log-manifest'/);
     const manifest = JSON.parse(read('manifest.webmanifest'));
     assert.deepEqual([manifest.name, manifest.short_name, manifest.theme_color], ['Gym Log', 'Gym', '#123abc']);

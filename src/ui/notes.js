@@ -1,4 +1,5 @@
 import { addNote, editNote, deleteNote, findNote } from '#notes';
+import { bindSheetDrag } from '#ds/sheet';
 import { settle } from '#swipe';
 import { SIDE_BUTTON, DRAG_START, $, el, ui, state, t, apply, render, guardClick } from '#ui/context';
 import { iconButton } from '#ui/controls';
@@ -117,7 +118,10 @@ export const renderNotes = () => {
 
 export const bind = () => {
   $('fab').addEventListener('click', () => openSheet());
+  $('notes-add').addEventListener('click', () => openSheet());
   $('note-veil').addEventListener('click', closeNoteSheet);
+  $('note-close').addEventListener('click', closeNoteSheet);
+  bindSheetDrag($('note-sheet'), { close: closeNoteSheet });
   $('note-back').addEventListener('click', () => openNote(null));
   $('note-edit').addEventListener('click', () => openSheet(ui.noteId));
   $('note-delete').addEventListener('click', () => remove(ui.noteId));

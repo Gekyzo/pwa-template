@@ -40,6 +40,12 @@ test('the note sheet has a veil, a dialog and a text field with the maximum leng
   assert.match(layer, /<textarea id="note-text"[^>]*maxlength="200"/);
 });
 
+test('the note sheet has a head with its title and Close, a body, and Save in its foot', () => {
+  const [layer = ''] = body.match(/<div id="note-sheet" class="sheet-layer"[\s\S]*?<\/form>\s*<\/div>/) ?? [];
+  assert.match(layer, /<header class="sheet-head"><h2 id="note-sheet-title" class="sheet-title main"><\/h2><button id="note-close" class="button tonal" type="button" data-i18n="notes.close"><\/button><\/header>\s*<div class="sheet-body">/);
+  assert.match(layer, /<footer class="sheet-foot"><button class="button primary wide" type="submit" data-i18n="notes.save"><\/button><\/footer>\s*<\/form>/);
+});
+
 test('the walkthrough has one drawing for each page, in the order of the pages', () => {
   const [layer = ''] = body.match(/<div id="onboarding"[\s\S]*?<input id="import-file"/) ?? [];
   const drawings = [...layer.matchAll(/<svg data-page="([^"]+)"/g)].map(([, page]) => page);

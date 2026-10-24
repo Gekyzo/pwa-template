@@ -27,7 +27,9 @@ catalogs, the `#notes` section and the `#note-sheet` of `index.html`.
 
 ## Screen
 
-- **NOTE-8** The Notes section lists the notes. With no note it shows `notes.empty`. **+** opens
-  the sheet of a new note; a tap on a row opens its detail (LAY-3), with **Edit** and **Delete**.
+- **NOTE-8** The Notes section lists the notes. With no note it shows `notes.empty` and **Add
+  note**. **+** and **Add note** open the sheet of a new note; a tap on a row opens its detail
+  (LAY-3), with **Edit** and **Delete**. The head of the sheet has the title and **Close**, its
+  foot **Save**; **Close**, a tap on the veil or a drag down of the head closes it with no save.
 - **NOTE-9** A row slides left to show **Delete**. A hold of a finger, or a vertical drag of the
   mouse, lifts the row and moves it in the list (NOTE-6).
