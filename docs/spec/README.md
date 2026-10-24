@@ -14,7 +14,7 @@ The names of the screen are the English ones; `src/locales/es.js` is the source 
 | [02-offline-version.md](02-offline-version.md) | Service worker, version, update toast, deploy, installation |
 | [03-install.md](03-install.md) | The install offer and the Install button |
 | [04-design-system.md](04-design-system.md) | The copy of the design system, the parts of the app and the catalogue |
-| [05-layout.md](05-layout.md) | Navigation, sections, modules and the walkthrough |
+| [05-layout.md](05-layout.md) | Navigation, sections, modules, Settings and the walkthrough |
 | [06-i18n.md](06-i18n.md) | The languages and the rules of the text |
 | [07-notes.md](07-notes.md) | The notes demo: the domain that each app replaces |
 
@@ -33,7 +33,7 @@ The rules DS-1 to DS-8 and LAY-1 to LAY-4 belong to the design system, `pwa-desi
 | `SW`, `VER` | 02-offline-version |
 | `INS` | 03-install |
 | `DSV` | 04-design-system |
-| `NAV`, `MOD`, `ONB` | 05-layout |
+| `NAV`, `MOD`, `SET`, `ONB` | 05-layout |
 | `I18N` | 06-i18n |
 | `NOTE` | 07-notes |
 
