@@ -4,6 +4,10 @@ Technical changes, newest first. What a user sees of a version goes to `release-
 
 ## Unreleased
 
+No change.
+
+## 0.1.3 - 2026-10-25
+
 - Google sign-in and the approval gate of the PocketBase server, with an offline choice, as in `pwa-wardrobe` (ACC-1 to ACC-10, `docs/spec/08-account.md`): `src/pocketbase.js`, `src/session.js`, `src/ui/account.js`. The app opens for an approved Google account or, after **Use offline**, with no account. Nothing syncs. Keys `pwa-template.session`, `pwa-template.offline` and `pwa-template.oauth` (`sessionStorage`). The shell cache is `pwa-template-shell-v5`.
 
 ## 0.1.2 - 2026-10-24
