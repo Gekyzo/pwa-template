@@ -43,7 +43,7 @@ export default {
   'settings.install': 'Instalar la aplicación',
   'settings.account': 'Cuenta',
   'account.login.title': 'Iniciar sesión',
-  'account.login.text': 'El administrador aprueba cada cuenta nueva. Sin conexión, tus notas se queda en este dispositivo.',
+  'account.login.text': 'El administrador aprueba cada cuenta nueva. Sin conexión, tus notas se quedan en este dispositivo.',
   'account.google': 'Continuar con Google',
   'account.offline': 'Usar sin conexión',
   'account.signIn': 'Iniciar sesión con Google',
