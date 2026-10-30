@@ -4,6 +4,10 @@ What changes for you in each version of the app. The newest version is first.
 
 ## Unreleased
 
+No change.
+
+## 0.1.4 - 2026-10-31
+
 - In What's new, the text in bold shows in bold, with no asterisks.
 - **Delete all data** in Settings removes the notes and the preferences from this device, and the app starts as new.
 
