@@ -16,19 +16,37 @@ const keyPart = (text) => {
 };
 
 // The parts of a page text. A text between two backticks is a key, such as `↻` or `+`; a
-// backtick with no pair stays in the text.
+// backtick with no pair stays in the text. A text between two `**` outside a key is bold: its
+// parts, keys too, get `strong: true`. A `**` with no pair stays in the text.
 export const textParts = (text) => {
   const pieces = text.split('`');
   // An even count of pieces means that the last backtick has no pair.
   const open = pieces.length % 2 === 0 ? pieces.splice(-2).join('`') : null;
-  const parts = pieces.map((piece, index) => ({ text: piece, key: index % 2 === 1 }));
-  if (open !== null) parts.push({ text: open, key: false });
+  const raw = pieces.map((piece, index) => ({ text: piece, key: index % 2 === 1 }));
+  if (open !== null) raw.push({ text: open, key: false });
+  // The `**` marks of the plain text. With an odd count, the last one has no pair.
+  const marks = raw.reduce((count, part) => count + (part.key ? 0 : part.text.split('**').length - 1), 0);
+  let paired = marks - (marks % 2);
+  let strong = false;
+  const parts = raw.flatMap((part) => {
+    if (part.key) return [{ ...part, strong }];
+    return part.text.split('**').map((piece, index) => {
+      if (index === 0) return { text: piece, key: false, strong };
+      if (paired === 0) return { text: `**${piece}`, key: false, strong };
+      paired -= 1;
+      strong = !strong;
+      return { text: piece, key: false, strong };
+    });
+  });
   return parts
     .filter((part) => part.text)
     .reduce((joined, part) => {
       const last = joined.at(-1);
-      if (last && !last.key && !part.key) last.text += part.text;
-      else joined.push(part.key ? keyPart(part.text) : { ...part });
+      if (last && !last.key && !part.key && Boolean(last.strong) === part.strong) last.text += part.text;
+      else {
+        const next = part.key ? keyPart(part.text) : { text: part.text, key: false };
+        joined.push(part.strong ? { ...next, strong: true } : next);
+      }
       return joined;
     }, []);
 };
